@@ -1,0 +1,11 @@
+version: '3'
+services:
+  api_openid:
+    build: .
+    restart: unless-stopped
+    volumes:
+      - ./data:/root
+    ports:
+      - "3090:3090"
+    environment:
+      API_OPENID_CONFIG: "/root/config-api_openid.json"

@@ -1,0 +1,140 @@
+{
+    "name": "API-OAUTH2",
+    "version": "1.0.0",
+    "description": "A Service API OAUTH 2.0 for Social",
+    "private": true,
+    "main": "lib/index.js",
+    "dependencies": {
+        "@promster/express": "^3.4.2",
+        "@promster/server": "^3.4.2",
+        "async-lock": "^1.4.0",
+        "axios": "^0.27.2",
+        "bn.js": "^4.12.0",
+        "colors": "^1.4.0",
+        "connect-ensure-login": "^0.1.1",
+        "connect-sqlite3": "^0.9.13",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "csurf": "^1.11.0",
+        "debug": "^4.3.4",
+        "ejs": "^3.1.9",
+        "express": "^4.18.2",
+        "express-session": "^1.18.0",
+        "form-data": "^4.0.0",
+        "http-errors": "^2.0.0",
+        "https": "^1.0.0",
+        "method-override": "^3.0.0",
+        "mkdirp": "^3.0.1",
+        "morgan": "^1.10.0",
+        "node-fetch": "^2.6.7",
+        "passport": "^0.7.0",
+        "passport-discord": "^0.1.4",
+        "passport-facebook": "^3.0.0",
+        "passport-github": "^1.1.0",
+        "passport-github2": "^0.1.12",
+        "passport-google-oidc": "^0.1.0",
+        "passport-twitter": "^1.0.4",
+        "passport-twitter-oauth2": "^2.1.1",
+        "passport-twitter-oauth2.0": "^1.1.0",
+        "pluralize": "^8.0.0",
+        "prom-client": "^11.5.3",
+        "punycode": "^2.3.0",
+        "qs": "^6.11.0",
+        "require-in-the-middle": "^7.2.0",
+        "ripemd160": "^2.0.2",
+        "sqlite3": "^5.1.4",
+        "util": "^0.12.5",
+        "uuid": "^9.0.0",
+        "winston": "^2.4.7"
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.19.3",
+        "@babel/core": "^7.20.5",
+        "@babel/preset-env": "^7.20.2",
+        "@babel/preset-flow": "^7.18.6",
+        "@babel/preset-typescript": "^7.18.6",
+        "@babel/register": "^7.18.9",
+        "@commitlint/cli": "^12.1.4",
+        "@commitlint/config-conventional": "^12.1.4",
+        "@istanbuljs/nyc-config-babel": "^2.1.1",
+        "babel-eslint": "^10.1.0",
+        "babel-plugin-istanbul": "^5.2.0",
+        "dotenv": "^8.6.0",
+        "eslint": "^6.8.0",
+        "flow-bin": "^0.109.0",
+        "husky": "^6.0.0",
+        "nock": "^9.6.1",
+        "nyc": "^14.1.1",
+        "tape": "^4.16.1"
+    },
+    "bin": {
+        "api-openid": "lib/index.js"
+    },
+    "scripts": {
+        "start": "API_OAUTH2_CONFIG=/home/paradigma/api-oauth2-passport/config-api_oauth2.json sudo npm run build && node lib/index.js sudo npm run start",
+        "start:regtest": "API_OAUTH2_DEVELOP=/home/paradigma/api-oauth2-passport/config-develop.json API_OAUTH2_REGTEST=true sudo npm run start",
+        "build": "API_OAUTH2_CONFIG=/home/paradigma/api-oauth2-passport/config-api_oauth2.json babel src -d lib",
+        "flow": "flow",
+        "lint": "eslint src",
+        "lint:fix": "eslint src --fix",
+        "compile-tests": "npm run lint && npm run flow && npm run build && babel tests/src -d tests/lib",
+        "test-inner": "npm run compile-tests && node tests/lib/index.js",
+        "test": "nyc --reporter=text npm run test-inner",
+        "report-lcov": "nyc report --reporter=lcov",
+        "prepare": "husky install"
+    },
+    "nyc": {
+        "extends": "@istanbuljs/nyc-config-babel",
+        "all": true,
+        "include": [
+            "src/**"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/paradigma-cl/api-oauth2.git"
+    },
+    "author": {
+        "name": "Paradigma Global",
+        "email": "info@paradigma.global",
+        "url": "https://paradigma.global"
+    },
+    "license": "MIT",
+    "contributors": [
+        {
+            "name": "Josep Font i Roig"
+        }
+    ],
+    "bugs": {
+        "url": "https://github.com/paradigma-cl/api-openid/issues"
+    },
+    "homepage": "https://github.com/paradigma-cl/api-openid#readme",
+    "commitlint": {
+        "extends": [
+            "@commitlint/config-conventional"
+        ]
+    },
+    "release": {
+        "plugins": [
+            "@semantic-release/commit-analyzer",
+            "@semantic-release/release-notes-generator",
+            [
+                "@semantic-release/npm",
+                {
+                    "npmPublish": false
+                }
+            ],
+            "@semantic-release/github",
+            "@semantic-release/changelog",
+            "@semantic-release/git",
+            [
+                "semantic-release-slack-bot",
+                {
+                    "notifyOnSuccess": true,
+                    "notifyOnFail": true,
+                    "markdownReleaseNotes": true
+                }
+            ]
+        ]
+    }
+}
